@@ -3,7 +3,7 @@ import subprocess
 
 def encode_video(input_file, output_file, output_bitrate, encoding_type):
     common_params = [
-        'ffmpeg.exe',
+        'ffmpeg',
         '-nostdin',
         '-loglevel', 'error',
         '-stats',
@@ -33,10 +33,10 @@ def encode_video(input_file, output_file, output_bitrate, encoding_type):
         '-vf', video_filters[encoding_type],
         '-c:v', 'libx265',
         '-map_chapters', '-1',
-        '-an', '-sn',
+        '-c:a', "copy", '-c:s', "copy",
         '-b:v', f'{output_bitrate}k',
         '-x265-params', x265_params[encoding_type],
-        f'{output_file}_{encoding_type}_slow.mp4'
+        f'{output_file}_{encoding_type}_slow.mkv'
     ]
 
     subprocess.run(ffmpeg_cmd)
