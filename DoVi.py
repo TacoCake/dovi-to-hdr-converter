@@ -30,9 +30,11 @@ def encode_video(input_file, output_file, output_bitrate, encoding_type):
 
     ffmpeg_cmd = common_params + [
         '-i', input_file,
+        '-map', '0:V',
+        '-map', '0:a',
+        '-map', '0:s?',
         '-vf', video_filters[encoding_type],
         '-c:v', 'libx265',
-        '-map_chapters', '-1',
         '-c:a', "copy", '-c:s', "copy",
         '-b:v', f'{output_bitrate}k',
         '-x265-params', x265_params[encoding_type],
